@@ -104,6 +104,26 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+a[title] {
+  position: relative;
+}
+
+a[title]:hover:before {
+  content: attr(title);
+  display: inline-block;
+  padding: .6em 1.2em; 
+  white-space: nowrap; 
+  background-color: #ffd323;
+  color: #1a1a1a;;
+  font-size: 0.7em;
+  border-radius: 15px;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -1em);
+  z-index: 1;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -17,4 +17,5 @@ des films qui permet d'afficher les résultat dans des cards .
 ### Ressources et services externes
 
 - Liste des services externes (ex: fonts, js, api...)
-  - [The Movie Database (TMDB) API.](https://developer.themoviedb.org/reference/intro/getting-started)
+  - En phase initiale : [FreeTestApi](https://freetestapi.com/apis/movies)
+  - Par la suite (si temps disponible ): [The Movie Database (TMDB) API.](https://developer.themoviedb.org/reference/intro/getting-started)

@@ -2,6 +2,8 @@
 
 ## Requetes d'API
 
+api à utiliser [FreeTestAPI](https://freetestapi.com/apis/movies)
+
 ### GET :hand:
 
     fetch('https://jsonplaceholder.typicode.com/posts')

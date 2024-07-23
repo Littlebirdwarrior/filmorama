@@ -6,7 +6,7 @@ import viteLogo from '/vite.svg'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
-    <a href="https://developer.themoviedb.org/docs/getting-started" target="_blank">
+    <a href="#" title="Faisons des recherches sur les films !! ">
       <img src="${filmLogo}" class="logo film" alt="Vite logo" />
     </a>
     <a href="https://vitejs.dev" target="_blank">
