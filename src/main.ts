@@ -2,7 +2,7 @@ import './style.css'
 import filmLogo from '/film.svg'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
-//import { setupCounter } from './app.ts'
+import './app.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
@@ -16,7 +16,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
     </a>
     <h1>Filmorama</h1>
-    <form class="card">
+    <form id="form" class="card">
       <label for="search">Recherchez un film</label>
       <fieldset>
         <input type="text" id="search" name="search" ></input>
@@ -28,5 +28,3 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </p>
   </div>
 `
-
-//setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)

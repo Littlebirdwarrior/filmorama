@@ -4,13 +4,13 @@
 
 api à utiliser [FreeTestAPI](https://freetestapi.com/apis/movies)
 
-### GET :hand:
+### GET
 
     fetch('https://jsonplaceholder.typicode.com/posts')
     .then((res) => res.json())
     .then((json) => console.log(json)); 
 
-### POST :fist:
+### POST
 
     fetch("https://jsonplaceholder.typicode.com/posts", {
     method: "POST",
