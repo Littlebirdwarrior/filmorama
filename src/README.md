@@ -19,3 +19,8 @@ des films qui permet d'afficher les résultat dans des cards .
 - Liste des services externes (ex: fonts, js, api...)
   - En phase initiale : [FreeTestApi](https://freetestapi.com/apis/movies)
   - Par la suite (si temps disponible ): [The Movie Database (TMDB) API.](https://developer.themoviedb.org/reference/intro/getting-started)
+
+### Commende utile
+
+Lancer le projet : `npm run dev`
+localhost : `http://localhost:5173` 
