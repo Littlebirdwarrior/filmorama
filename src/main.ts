@@ -29,7 +29,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </div>
   <div>
     <h2>Mes résultats</h2>
-    <p id="result">
+    <p id="resultDisplay">
     </p>
   </div>
 `

@@ -51,6 +51,7 @@ async function fetchData(query : string) {
   //ternaine, si query existe, filtrer, sinon vide
   const searchQuery = query ? "?search=" + encodeURIComponent(query) : "";
   const url = apiUrl + searchQuery;
+  let display: string = "";
 
   console.log('url', url);//ok
 
@@ -65,13 +66,31 @@ async function fetchData(query : string) {
   try {
     // Convertir la promise en JSON si elle est fullfiled: 
     let movies : Movie[] = await response.json();
-    console.log('json', movies.length)//ok
+    // console.log('json', movies.length)//ok
     //je verifie que mon array est bien un tableau et n'est pas vide
     if(Array.isArray(movies) && movies.length !== 0){
       //Grace à une boucle forE, j'affiche les paramètre de chaque objet
-      return movies
+      //console.log(movies);
+      //return movies
+
+      movies.forEach(movie => {
+        display +=
+        `<div>
+          <h3>${movie.title}</h3>
+          <ul>
+            <li>${movie.year}</li>
+            <li>${movie.genre}</li>
+            <li>${movie.year}</li>
+            <li>${movie.plot}</li>
+          </ul>
+        </div>`
+      });
+
+      return display;
+
     } else {
       console.error( `no movies for: ${query} `);
+      return `Oh no, no movie for: ${query}`;
     }
 
   } catch(error) {
@@ -80,20 +99,40 @@ async function fetchData(query : string) {
 
 }
 
+async function displayData(inputValue: string) {
+    try {
+        const resultDisplay = document.getElementById("resultDisplay") as HTMLElement; // Récupérer l'id de l'input
+        
+        if (!resultDisplay) {
+            throw new Error("Élément avec l'ID 'resultDisplay' non trouvé.");
+        }
+        
+        // Attente de la résolution de la promesse fetchData
+        const result = await fetchData(inputValue);
+
+        // Mise à jour du contenu de l'élément <p>
+        if (typeof result === 'string') {
+            resultDisplay.innerText = result;
+        } else {
+            resultDisplay.innerText = JSON.stringify(result, null, 2);
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données:", error);
+    }
+}
+
 /**
  * 
  * 
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Récupérer l'id du formulaire
+  // Récupérer l'id du formulaireyear
   const form = document.getElementById("form") as HTMLFormElement;
   // Récupérer la valeur de l'input
   const search = document.getElementById("search") as HTMLInputElement;
-  // Récupérer l'id de l'input
-  const resultDisplay = document.getElementById("result") as HTMLElement;
 
-  //Fonctionnement formulaire
+  //Fonctionnement formulaire<li></li>
   if (form && search) {
     
     // Ajoutez un écouteur d'événement pour la soumission du formulaire
@@ -105,9 +144,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Récupérez la valeur de l'input
     let inputValue: string = search.value;
 
-    //Je récupère mes données
-    let result = fetchData(inputValue);
-    console.log(result);
+  
+    displayData(inputValue);
+
 
     //J'affiche mes données
 
@@ -121,3 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 });
+
+
+
+// FIXME: TON CLAVIER CAMILLE !!!!
