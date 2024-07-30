@@ -1,10 +1,12 @@
 /**
- *  Étape 1: recuperer le texte compris dans le label
+ *  Étape 1: recuperer le texte compris dans le label *
  *
  *  Sources : https://www.typescriptlang.org/docs/handbook/dom-manipulation.html
  *  https://developer.mozilla.org/fr/docs/Learn/Forms/Sending_and_retrieving_form_data
  *
- *  Étape 2: utiliser l'api et récupérer des objets
+ *  Étape 2: utiliser l'api et récupérer des objets *
+ * 
+ *  Étape 3: passer une requete personnalisée à partir de l'input
  *
  *  Étape 3: afficher les objets dans des cards dynamiques
  *
@@ -40,76 +42,78 @@ type Movie = {
 }
 
 
-async function fetchData() {
-  try {
-      // Faire l'appel à l'API
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-      
-      // Vérifiez si la réponse est correcte
-      if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des données');
-      }
-      // Convertir la promise en JSON si elle est fullfiled
-      const dataJson = await response.json();
-      //
-      return dataJson;
+async function fetchData(query : string) {
 
-  } catch (error) {
-      // Gérer les erreurs éventuelles
-      console.error('Erreur:', error);
-  }
-}
+  console.log('query', query);//ok
 
-// Fonction pour afficher les films
-async function displayData() {
-    try {
-        //je recupère un json que j'assigne comme un tableau d'objet
-        const movies: Movie[] = await fetchData();
+  const apiUrl = "https://freetestapi.com/api/v1/movies";
+  //encodeURIComponent : filtre les input et échappe les charactère
+  //ternaine, si query existe, filtrer, sinon vide
+  const searchQuery = query ? "?search=" + encodeURIComponent(query) : "";
+  const url = apiUrl + searchQuery;
 
-        //Grace à une boucle forE, j'affiche les paramètre de chaque objet
-        movies.forEach(movie => {
-          console.log(`ID: ${movie.id}, Title: ${movie.title}, Year: ${movie.year}, Genre: ${movie.genre}`);
-        });
-    } catch (error) {
-        console.error("Erreur lors de l'affichage", error);
-    }
-}
+  console.log('url', url);//ok
 
-
-/**
- * Je récupère la valeur de mon input
- * TODO : à sécuriser
- * @param form
- * @param search
- */
-function setupSearch(form: HTMLFormElement, search: HTMLInputElement) {
-  // Ajoutez un écouteur d'événement pour la soumission du formulaire
-  form.addEventListener("submit", function (event: Event) {
-    event.preventDefault();
-    // Récupérez la valeur de l'input
-    let inputValue: string = search.value;
-    // Par exemple, afficher la valeur dans une alerte
-    //console.log(inputValue);
-
-    // Récupérer mes données
-    console.log("dataJson", displayData());
+  // Faire l'appel à l'API
+  const response = await fetch(url);
     
-    return inputValue;
-  });
+  // Vérifiez si la réponse est correcte
+  if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des données');
+  }
+
+  try {
+    // Convertir la promise en JSON si elle est fullfiled: 
+    let movies : Movie[] = await response.json();
+    console.log('json', movies.length)//ok
+    //je verifie que mon array est bien un tableau et n'est pas vide
+    if(Array.isArray(movies) && movies.length !== 0){
+      //Grace à une boucle forE, j'affiche les paramètre de chaque objet
+      return movies
+    } else {
+      console.error( `no movies for: ${query} `);
+    }
+
+  } catch(error) {
+    throw new Error( "failed fetch of the movies");
+  }
+
 }
 
 /**
- * injection du code au chargement de la page
+ * 
+ * 
  */
+
 document.addEventListener("DOMContentLoaded", function () {
   // Récupérer l'id du formulaire
   const form = document.getElementById("form") as HTMLFormElement;
   // Récupérer la valeur de l'input
   const search = document.getElementById("search") as HTMLInputElement;
-  
+  // Récupérer l'id de l'input
+  const resultDisplay = document.getElementById("result") as HTMLElement;
+
   //Fonctionnement formulaire
   if (form && search) {
-    setupSearch(form, search);
+    
+    // Ajoutez un écouteur d'événement pour la soumission du formulaire
+    form.addEventListener("submit", function (event: Event) {
+
+    //eviter le refresh page
+    event.preventDefault();
+
+    // Récupérez la valeur de l'input
+    let inputValue: string = search.value;
+
+    //Je récupère mes données
+    let result = fetchData(inputValue);
+    console.log(result);
+
+    //J'affiche mes données
+
+    //console.log(display);
+
+  })
   } else {
     console.error(
       "Le formulaire ou l'input n'a pas pu être trouvé dans le DOM."

@@ -27,4 +27,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       Click on the Vite and TypeScript logos to learn more
     </p>
   </div>
+  <div>
+    <h2>Mes résultats</h2>
+    <p id="result">
+    </p>
+  </div>
 `
