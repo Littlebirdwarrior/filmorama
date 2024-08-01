@@ -40,7 +40,11 @@ type Movie = {
   website:    string
 
 }
-
+/**
+ * Récupère les informations à partir de l'api https://freetestapi.com
+ * @param query
+ * @returns string 
+ */
 
 async function fetchData(query : string) {
 
@@ -99,6 +103,11 @@ async function fetchData(query : string) {
 
 }
 
+/**
+ * Affiche les données récupérée dans le main HTML
+ * @param inputValue 
+ */
+
 async function displayData(inputValue: string) {
     try {
         const resultDisplay = document.getElementById("resultDisplay") as HTMLElement; // Récupérer l'id de l'input
@@ -112,7 +121,7 @@ async function displayData(inputValue: string) {
 
         // Mise à jour du contenu de l'élément <p>
         if (typeof result === 'string') {
-            resultDisplay.innerText = result;
+            resultDisplay.innerHTML= result;
         } else {
             resultDisplay.innerText = JSON.stringify(result, null, 2);
         }
@@ -122,8 +131,7 @@ async function displayData(inputValue: string) {
 }
 
 /**
- * 
- * 
+ * Déclanche l'action à la submission du formulaire
  */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -160,7 +168,3 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 });
-
-
-
-// FIXME: TON CLAVIER CAMILLE !!!!
