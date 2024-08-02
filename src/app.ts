@@ -13,6 +13,11 @@
  *  Étapes 4: créer un filtre qui permet de rechercher les bons objets dans l'API
  *
  *  Étapes 5, réinitialiser le filtre
+ *  
+ *  Étapes 6: refactor
+ *  - recupérer valeur input
+ *  - fetch
+ *  - display (séparer affichage de recupération)
  */
 
 
@@ -55,7 +60,6 @@ async function fetchData(query : string) {
   //ternaine, si query existe, filtrer, sinon vide
   const searchQuery = query ? "?search=" + encodeURIComponent(query) : "";
   const url = apiUrl + searchQuery;
-  let display: string = "";
 
   console.log('url', url);//ok
 
@@ -75,26 +79,12 @@ async function fetchData(query : string) {
     if(Array.isArray(movies) && movies.length !== 0){
       //Grace à une boucle forE, j'affiche les paramètre de chaque objet
       //console.log(movies);
-      //return movies
-
-      movies.forEach(movie => {
-        display +=
-        `<div>
-          <h3>${movie.title}</h3>
-          <ul>
-            <li>${movie.year}</li>
-            <li>${movie.genre}</li>
-            <li>${movie.year}</li>
-            <li>${movie.plot}</li>
-          </ul>
-        </div>`
-      });
-
-      return display;
+      return movies
 
     } else {
+      //une fonction ne retourne pas des type différent
       console.error( `no movies for: ${query} `);
-      return `Oh no, no movie for: ${query}`;
+      return [];
     }
 
   } catch(error) {
@@ -120,11 +110,34 @@ async function displayData(inputValue: string) {
         const result = await fetchData(inputValue);
 
         // Mise à jour du contenu de l'élément <p>
-        if (typeof result === 'string') {
-            resultDisplay.innerHTML= result;
-        } else {
-            resultDisplay.innerText = JSON.stringify(result, null, 2);
-        }
+          let display: string = "";
+
+          if(!result.length){
+            display = "Caramba, encore raté";
+          }
+
+          result.forEach(movie => {
+            display +=
+            `<div class="movie">
+              <h3 class="movie-title">${movie.title}</h3>
+              <p class="movie-rating">${movie.rating}</p>
+              <img class="movie-img" src="${movie.poster}" alt="affiche du film ${movie.title}"/>
+              <ul class="movie-list">
+                <li><span>Year : </span>${movie.year}</li>
+                <li><span>Genre : </span>${movie.genre}</li>
+                <li><span>Director : </span>${movie.director}</li>
+                <li><span>Awards : </span>${movie.awards}</li>
+                <li><span>language : </span>${movie.language}</li>
+                <li><span>Runtime : </span>${movie.runtime} min</li>
+              </ul>
+              <p class="movie-actors"><span>Actors</span>${movie.actors}</p>
+              <p class="movie-plot"><span>Actors</span>${movie.plot}</p>
+              <a class="movie-trailer"href="https://www.youtube.com/watch?${movie.title}">Go to trailer</a>
+              <a class="movie-website"href="${movie.website}">Learn more on the web</a>
+            </div>`
+          });
+    
+            resultDisplay.innerHTML= display;
     } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
     }
@@ -134,8 +147,9 @@ async function displayData(inputValue: string) {
  * Déclanche l'action à la submission du formulaire
  */
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Récupérer l'id du formulaireyear
+document.addEventListener("DOMContentLoaded", () => {
+  // Mon dom ne change pas, mon formumlaire est toujours là (pas besoin de rechercher à chaque fois)
+  // Récupérer l'id du formulaire
   const form = document.getElementById("form") as HTMLFormElement;
   // Récupérer la valeur de l'input
   const search = document.getElementById("search") as HTMLInputElement;
@@ -144,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (form && search) {
     
     // Ajoutez un écouteur d'événement pour la soumission du formulaire
-    form.addEventListener("submit", function (event: Event) {
+    form.addEventListener("submit", (event: Event) => {
 
     //eviter le refresh page
     event.preventDefault();
@@ -152,13 +166,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Récupérez la valeur de l'input
     let inputValue: string = search.value;
 
-  
-    displayData(inputValue);
-
-
     //J'affiche mes données
-
-    //console.log(display);
+    displayData(inputValue);    
 
   })
   } else {

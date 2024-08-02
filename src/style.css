@@ -26,8 +26,11 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: center;
+}
+
+.container {
+  max-width: 860px;
 }
 
 h1 {
@@ -37,13 +40,12 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
+  min-width: 320px;
   padding: 2rem;
 }
 
 .logo {
-  height: 6em;
+  height: 5em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
@@ -63,8 +65,9 @@ h1 {
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
+form {
+  min-width: 350px;
+  max-width: 80%;
 }
 
 form fieldset{
@@ -75,9 +78,9 @@ form fieldset{
 }
 
 label{
- font-size: 1.2rem;
- text-align: left;
- padding-left: .8rem;
+  font-size: 1.2rem;
+  text-align: left;
+  padding-left: .8rem;
 }
 
 input[type="text"] {
@@ -135,4 +138,86 @@ a[title]:hover:before {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Style perso*/
+
+.text-center {
+  text-align: center;
+}
+
+p, ul, h3 {
+  margin: inherit;
+}
+
+.movies-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.movie{
+  display: grid;
+  padding: 2rem;
+  background-color: #161515;
+  grid-template-columns: repeat(4, auto);
+  justify-content: center;
+  gap: 1rem;
+  grid-template-areas:
+    "title title title rating"
+    "img  list list list"
+    "actors  actors actors actors"
+    "plot plot plot plot"
+    "trailer trailer website website";
+}
+
+
+.movie-title{
+  grid-area: title;
+}
+
+.movie-rating{
+  grid-area: rating;
+}
+
+.movie-img{
+  width: 7rem;
+  grid-area: img;
+}
+
+.movie-list{
+  list-style: none;
+  grid-area: list;
+  >li span{
+    font-weight: 200;
+    margin-bottom: .5rem;
+  }
+}
+
+.movie-actors{
+  grid-area: actors;
+}
+
+.movie-plot{
+  grid-area: plot;
+}
+
+.movie-plot, .movie-actors {
+  background-color: #1a1a1a;
+  padding: 1rem .5rem;
+  border-radius: .3rem;
+  
+  >span{
+    display: block;
+    font-weight: 200;
+    margin-bottom: .5rem;
+  }
+}
+
+.movie-trailer{
+  grid-area: trailer;
+}
+
+.movie-website{
+  grid-area: website;
 }
