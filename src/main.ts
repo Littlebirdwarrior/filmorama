@@ -5,8 +5,8 @@ import viteLogo from '/vite.svg'
 import './app.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div class="container">
-    <div>
+  <div class="container-search">
+    <div class="logos">
       <a href="#" title="Faisons des recherches sur les films !! ">
         <img src="${filmLogo}" class="logo film" alt="Vite logo" />
       </a>
@@ -26,7 +26,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </fieldset>
     </form>
   </div>
-  <div>
+  <div class="container-result">
     <h2 class="text-center">Mes résultats</h2>
     <div id="resultDisplay" class="movies-container">
     </div>
